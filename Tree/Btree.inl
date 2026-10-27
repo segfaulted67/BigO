@@ -1,36 +1,24 @@
 namespace BigO {
-	template <typename T>
-	bool Node<T>::isLeaf()
-	{
-		return !left && !right;
-	}
-
-	template <typename T>
-	bool Node<T>::isInternalNode()
-	{
-		return left || right;
-	}
-
-	template <typename T>
-	BinaryTree<T>::BinaryTree(T data)
+	template <typename T, typename Metadata>
+	BinaryTree<T, Metadata>::BinaryTree(const T &data)
 	{
 		root = create(data);
 	}
 
-	template <typename T>
-	BinaryTree<T>::~BinaryTree()
+	template <typename T, typename Metadata>
+	BinaryTree<T, Metadata>::~BinaryTree()
 	{
 		destroy(root);
 	}
 
-	template <typename T>
-	Node<T> *BinaryTree<T>::create(T data)
+	template <typename T, typename Metadata>
+	Node<T, Metadata> *BinaryTree<T, Metadata>::create(T data)
 	{
-		return new Node<T>(data);
+		return new Node<T, Metadata>(data);
 	}
 
-	template <typename T>
-	void BinaryTree<T>::destroy(Node<T> *node)
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::destroy(Node<T, Metadata> *node)
 	{
 		if (!node)
 			return;
@@ -40,29 +28,40 @@ namespace BigO {
 		delete node;
 	}
 
-	template <typename T>
-	void BinaryTree<T>::printInorder()
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::printInorder()
 	{
 		inorder(root);
 		std::cout << std::endl;
 	}
 
-	template <typename T>
-	void BinaryTree<T>::printPreorder()
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::printPreorder()
 	{
 		preorder(root);
 		std::cout << std::endl;
 	}
 
-	template <typename T>
-	void BinaryTree<T>::printPostorder()
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::printPostorder()
 	{
 		postorder(root);
 		std::cout << std::endl;
 	}
 
-	template <typename T>
-	void BinaryTree<T>::inorder(Node<T> *node)
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::print(Traversal traversal)
+	{
+		if (traversal == Traversal::INORDER)
+			printInorder();
+		else if (traversal == Traversal::PREORDER)
+			printPreorder();
+		else if (traversal == Traversal::POSTORDER)
+			printPostorder();
+	}
+
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::inorder(Node<T, Metadata> *node)
 	{
 		if (!node)
 			return;
@@ -72,8 +71,8 @@ namespace BigO {
 		inorder(node->right);
 	}
 
-	template <typename T>
-	void BinaryTree<T>::preorder(Node<T> *node)
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::preorder(Node<T, Metadata> *node)
 	{
 		if (!node)
 			return;
@@ -83,8 +82,8 @@ namespace BigO {
 		preorder(node->right);
 	}
 
-	template <typename T>
-	void BinaryTree<T>::postorder(Node<T> *node)
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::postorder(Node<T, Metadata> *node)
 	{
 		if (!node)
 			return;
@@ -94,20 +93,32 @@ namespace BigO {
 		std::cout << node->data << " ";
 	}
 
-	template <typename T>
-	bool BinaryTree<T>::isEmpty()
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::operator==(const BinaryTree<T, Metadata>& rhs) const
+	{
+		return equals(root, rhs.root);
+	}
+
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::operator!=(const BinaryTree<T, Metadata>& rhs) const
+	{
+		return !equals(root, rhs.root);
+	}
+
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isEmpty() const
 	{
 		return root == nullptr;
 	}
 
-	template <typename T>
-	bool BinaryTree<T>::isFull()
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isFull() const
 	{
 		return isFull(root);
 	}
 
-	template <typename T>
-	bool BinaryTree<T>::isFull(Node<T> *node)
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isFull(Node<T, Metadata> *node) const
 	{
 		if (!node)
 			return true;
@@ -121,14 +132,14 @@ namespace BigO {
 		return false;
 	}
 
-	template <typename T>
-	bool BinaryTree<T>::isComplete()
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isComplete() const
 	{
 		return isComplete(root);
 	}
 
-	template <typename T>
-	bool BinaryTree<T>::isComplete(Node<T> *node)
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isComplete(Node<T, Metadata> *node) const
 	{
 		if (!node)
 			return true;
@@ -136,42 +147,58 @@ namespace BigO {
 		return false;
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::size()
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::equals(Node<T, Metadata> *node1, Node<T, Metadata> *node2) const
+	{
+		if (!node1 && !node2)
+			return true;
+		if (!node1 || !node2)
+			return false;
+
+		if (node1->data != node2->data)
+			return false;
+
+		return equals(node1->left, node2->left) &&
+			   equals(node1->right, node2->right);
+	}
+
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::size() const
 	{
 		return size(root);
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::size(Node<T> *node)
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::size(Node<T, Metadata> *node) const
 	{
 		if (!node)
 			return 0;
+
 		return 1 + size(node->left) + size(node->right);
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::height()
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::height() const
 	{
 		return height(root);
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::height(Node<T> *node)
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::height(Node<T, Metadata> *node) const
 	{
 		if (!node)
 			return 0;
 		return 1 + std::max(height(node->left), height(node->right));
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::countLeaf()
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::countLeaf() const
 	{
 		return countLeaf(root);
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::countLeaf(Node<T> *node)
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::countLeaf(Node<T, Metadata> *node) const
 	{
 		if (!node)
 			return 0;
@@ -180,14 +207,14 @@ namespace BigO {
 		return countLeaf(node->left) + countLeaf(node->right);
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::countInternalNode()
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::countInternalNode() const
 	{
 		return countInternalNode(root);
 	}
 
-	template <typename T>
-	std::size_t BinaryTree<T>::countInternalNode(Node<T> *node)
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::countInternalNode(Node<T, Metadata> *node) const
 	{
 		if (!node)
 			return 0;
@@ -196,15 +223,48 @@ namespace BigO {
 		return count + countInternalNode(node->left) + countInternalNode(node->right);
 	}
 
-	template <typename T>
-	void BinaryTree<T>::clear()
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::countNode() const
+	{
+		return countNode(root);
+	}
+
+	template <typename T, typename Metadata>
+	std::size_t BinaryTree<T, Metadata>::countNode(Node<T, Metadata> *node) const
+	{
+		if (!node)
+			return 0;
+
+		return 1 + countNode(node->left) + countNode(node->right);
+	}
+
+	template <typename T, typename Metadata>
+	int BinaryTree<T, Metadata>::balanceFactor() const
+	{
+		return balanceFactor(root);
+	}
+
+	template <typename T, typename Metadata>
+	int BinaryTree<T, Metadata>::balanceFactor(Node<T, Metadata> *node) const
+	{
+		if (!node)
+			return 0;
+
+		int left = static_cast<int>(height(node->left));
+		int right = static_cast<int>(height(node->right));
+
+		return left - right;
+	}
+
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::clear()
 	{
 		destroy(root);
 		root = nullptr;
 	}
 
-	template <typename T>
-	void BinaryTree<T>::Example()
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::Example()
 	{
 		destroy(root);
 
@@ -212,6 +272,7 @@ namespace BigO {
 		root->left = create(T(5));
 		root->right = create(T(20));
 
-		root->left->left = create(T(10));
+		root->left->left = create(T(4));
+		root->left->right = create(T(7));
 	}
 }

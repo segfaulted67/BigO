@@ -2,27 +2,24 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
+#include <cmath>
+
+#include "Node.hpp"
 
 namespace BigO {
-	template <typename T>
-	struct Node {
-		T data;
-		Node<T> *left = nullptr;
-		Node<T> *right = nullptr;
-
-		Node() = default;
-		explicit Node(const T &value) : data(value) { }
-
-		bool isLeaf();
-		bool isInternalNode();
+	enum class Traversal {
+		INORDER,
+		PREORDER,
+		POSTORDER,
 	};
 
-	template <typename T>
+	template <typename T, typename Metadata>
 	class BinaryTree {
 	public:
 		BinaryTree() = default;
-		BinaryTree(T data);
-		~BinaryTree();
+		explicit BinaryTree(const T &data);
+		virtual ~BinaryTree();
 
 		// TODO: Impl copying constructor
 		BinaryTree(const BinaryTree&) = delete;
@@ -31,32 +28,41 @@ namespace BigO {
 		void printInorder();
 		void printPreorder();
 		void printPostorder();
+		void print(Traversal traversal = Traversal::INORDER);
 
-		bool isEmpty();
-		bool isFull();
-		bool isComplete();
+		bool operator==(const BinaryTree<T, Metadata>& rhs) const;
+		bool operator!=(const BinaryTree<T, Metadata>& rhs) const;
+		bool isEmpty() const;
+		bool isFull() const;
+		bool isComplete() const;
 
-		std::size_t size();
-		std::size_t height();
-		std::size_t countLeaf();
-		std::size_t countInternalNode();
+		std::size_t size() const;
+		std::size_t height() const;
+		std::size_t countLeaf() const;
+		std::size_t countInternalNode() const;
+		std::size_t countNode() const;
+		int balanceFactor() const;
 
 		void clear();
 		void Example();
 	private:
-		Node<T> *create(T data);
-		void destroy(Node<T> *node);
-		void inorder(Node<T> *node);
-		void preorder(Node<T> *node);
-		void postorder(Node<T> *node);
-		bool isFull(Node<T> *node);
-		bool isComplete(Node<T> *node);
-		std::size_t size(Node<T> *node);
-		std::size_t height(Node<T> *node);
-		std::size_t countLeaf(Node<T> *node);
-		std::size_t countInternalNode(Node<T> *node);
-	private:
-		Node<T> *root = nullptr;
+		Node<T, Metadata> *create(T data);
+		void destroy(Node<T, Metadata> *node);
+		void inorder(Node<T, Metadata> *node);
+		void preorder(Node<T, Metadata> *node);
+		void postorder(Node<T, Metadata> *node);
+		bool isFull(Node<T, Metadata> *node) const;
+		bool isComplete(Node<T, Metadata> *node) const;
+		bool equals(Node<T, Metadata> *node1, Node<T, Metadata> *node2) const;
+		std::size_t size(Node<T, Metadata> *node) const;
+		std::size_t countLeaf(Node<T, Metadata> *node) const;
+		std::size_t countInternalNode(Node<T, Metadata> *node) const;
+		std::size_t countNode(Node<T, Metadata> *node) const;
+	protected:
+		std::size_t height(Node<T, Metadata> *node) const;
+		int balanceFactor(Node<T, Metadata> *node) const;
+	protected:
+		Node<T, Metadata> *root = nullptr;
 	};
 }
 
