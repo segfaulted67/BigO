@@ -3,18 +3,6 @@
 namespace BigO {
 	struct DefaultTree { };
 
-	struct AVLTree {
-		std::size_t height;
-
-		AVLTree() : height(1) { }
-	};
-
-	struct RBTree {
-		bool red;
-
-		RBTree() : red(true) { }
-	};
-
 	template <typename T, typename Metadata = DefaultTree>
 	struct Node {
 		T data;
@@ -28,6 +16,20 @@ namespace BigO {
 		bool isLeaf() const;
 		bool isInternalNode() const;
 		bool haveTwoChild() const;
+	};
+
+	struct AVLTree {
+		std::size_t height;
+
+		AVLTree() : height(1) { }
+	};
+
+	template <typename T>
+	struct RBTree {
+		bool red;
+		Node<T, RBTree> *parent = nullptr;
+
+		RBTree() : red(true) { }
 	};
 }
 

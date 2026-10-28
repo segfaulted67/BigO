@@ -12,6 +12,12 @@ namespace BigO {
 	}
 
 	template <typename T>
+	Node<T> *BST<T>::remove(T data)
+	{
+		return remove(this->root, data);
+	}
+
+	template <typename T>
 	const Node<T> *BST<T>::findMin()
 	{
 		return min(this->root);
@@ -54,6 +60,33 @@ namespace BigO {
 			return search(node->right, data);
 
 		return false;
+	}
+
+	template <typename T>
+	Node<T> *BST<T>::remove(Node<T> *&node, T data)
+	{
+		if (!node)
+			return nullptr;
+
+		if (data < node->data)
+			node->left = remove(node->left, data);
+		else if (data > node->data)
+			node->right = remove(node->right, data);
+		else {
+			if (node->left && node->right) {
+				auto temp = min(node->right);
+				node->data = temp->data;
+				node->right = remove(node->right, node->data);
+			} else {
+				auto temp = node;
+				if (!node->left)
+					node = node->right;
+				else if (!node->right)
+					node = node->left;
+				delete temp;
+			}
+		}
+		return node;
 	}
 
 	template <typename T>

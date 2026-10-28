@@ -12,7 +12,7 @@ namespace BigO {
 	}
 
 	template <typename T>
-	bool AVL<T>::remove(T data)
+	Node<T, AVLTree> *AVL<T>::remove(T data)
 	{
 		return remove(this->root, data);
 	}
@@ -54,6 +54,22 @@ namespace BigO {
 	}
 
 	template <typename T>
+	void AVL<T>::balanceTree(Node<T, AVLTree> *&node, T data, int balanceFactor)
+	{
+		if (balanceFactor > 1 && data < node->left->data) {
+			node = rightRotate(node);
+		} else if (balanceFactor > 1 && data > node->left->data) {
+			node->left = leftRotate(node->left);
+			node = rightRotate(node);
+		} else if (balanceFactor < -1 && data < node->right->data) {
+			node->right = rightRotate(node->right);
+			node = leftRotate(node);
+		} else if (balanceFactor < -1 && data > node->right->data) {
+			node = leftRotate(node);
+		}
+	}
+
+	template <typename T>
 	bool AVL<T>::insert(Node<T, AVLTree> *&node, T data)
 	{
 		if (!node) {
@@ -74,18 +90,19 @@ namespace BigO {
 
 		node->metadata.height = this->height(node);
 		int balance = this->balanceFactor(node);
+		balanceTree(node, data, balance);
 
-		if (balance > 1 && data < node->left->data) {
-			node = rightRotate(node);
-		} else if (balance > 1 && data > node->left->data) {
-			node->left = leftRotate(node->left);
-			node = rightRotate(node);
-		} else if (balance < -1 && data < node->right->data) {
-			node->right = rightRotate(node->right);
-			node = leftRotate(node);
-		} else if (balance < -1 && data > node->right->data) {
-			node = leftRotate(node);
-		}
+		// if (balance > 1 && data < node->left->data) {
+		// 	node = rightRotate(node);
+		// } else if (balance > 1 && data > node->left->data) {
+		// 	node->left = leftRotate(node->left);
+		// 	node = rightRotate(node);
+		// } else if (balance < -1 && data < node->right->data) {
+		// 	node->right = rightRotate(node->right);
+		// 	node = leftRotate(node);
+		// } else if (balance < -1 && data > node->right->data) {
+		// 	node = leftRotate(node);
+		// }
 		return true;
 	}
 
@@ -107,10 +124,53 @@ namespace BigO {
 	}
 
 	template <typename T>
-	bool AVL<T>::remove(Node<T, AVLTree> *&node, T data)
+	Node<T, AVLTree> *AVL<T>::remove(Node<T, AVLTree> *&node, T data)
 	{
-		// TODO: Impl remove
-		return false;
+		if (!node)
+			return nullptr;
+
+		if (data < node->data)
+			node->left = remove(node->left, data);
+		else if (data > node->data)
+			node->right = remove(node->right, data);
+		else {
+			if (node->left && node->right) {
+				auto temp = min(node->right);
+				node->data = temp->data;
+				node->right = remove(node->right, node->data);
+			} else {
+				auto temp = node;
+				if (!node->left)
+					node = node->right;
+				else if (!node->right)
+					node = node->left;
+				delete temp;
+			}
+		}
+
+		if (!node)
+			return nullptr;
+
+		node->metadata.height = this->height(node);
+		int balance = this->balanceFactor(node);
+
+		if (balance > 1) {
+			if (this->balanceFactor(node->left) > 0)
+				node = rightRotate(node);
+			else {
+				node->left = leftRotate(node->left);
+				node =  rightRotate(node);
+			}
+		} else if (balance < -1) {
+			if (this->balanceFactor(node->right) < 0)
+				node = leftRotate(node);
+			else {
+				node->right = rightRotate(node->right);
+				node = leftRotate(node);
+			}
+		}
+
+		return node;
 	}
 
 	template <typename T>

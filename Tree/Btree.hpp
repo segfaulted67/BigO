@@ -21,9 +21,8 @@ namespace BigO {
 		explicit BinaryTree(const T &data);
 		virtual ~BinaryTree();
 
-		// TODO: Impl copying constructor
-		BinaryTree(const BinaryTree&) = delete;
-		BinaryTree& operator=(const BinaryTree&) = delete;
+		BinaryTree(const BinaryTree& rhs);
+		BinaryTree& operator=(const BinaryTree& rhs);
 
 		void printInorder();
 		void printPreorder();
@@ -54,6 +53,7 @@ namespace BigO {
 		bool isFull(Node<T, Metadata> *node) const;
 		bool isComplete(Node<T, Metadata> *node) const;
 		bool equals(Node<T, Metadata> *node1, Node<T, Metadata> *node2) const;
+		Node<T, Metadata> *copy(Node<T, Metadata> *node);
 		std::size_t size(Node<T, Metadata> *node) const;
 		std::size_t countLeaf(Node<T, Metadata> *node) const;
 		std::size_t countInternalNode(Node<T, Metadata> *node) const;

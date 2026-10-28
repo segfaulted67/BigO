@@ -6,9 +6,21 @@ namespace BigO {
 	}
 
 	template <typename T, typename Metadata>
+	BinaryTree<T, Metadata>::BinaryTree(const BinaryTree& rhs)
+	{
+		root = copy(rhs.root);
+	}
+
+	template <typename T, typename Metadata>
 	BinaryTree<T, Metadata>::~BinaryTree()
 	{
 		destroy(root);
+	}
+
+	template <typename T, typename Metadata>
+	BinaryTree<T, Metadata>& BinaryTree<T, Metadata>::operator=(const BinaryTree& rhs)
+	{
+		return BinaryTree(rhs);
 	}
 
 	template <typename T, typename Metadata>
@@ -160,6 +172,18 @@ namespace BigO {
 
 		return equals(node1->left, node2->left) &&
 			   equals(node1->right, node2->right);
+	}
+
+	template <typename T, typename Metadata>
+	Node<T, Metadata> *BinaryTree<T, Metadata>::copy(Node<T, Metadata> *node)
+	{
+		if (!node)
+			return nullptr;
+
+		Node<T, Metadata> *temp = new Node<T, Metadata>(node->data);
+		temp->left = copy(node->left);
+		temp->right = copy(node->right);
+		return temp;
 	}
 
 	template <typename T, typename Metadata>
