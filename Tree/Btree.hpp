@@ -6,12 +6,14 @@
 #include <cmath>
 
 #include "Node.hpp"
+#include "../Queue/Queue.hpp"
 
 namespace BigO {
 	enum class Traversal {
 		INORDER,
 		PREORDER,
 		POSTORDER,
+		LEVELORDER,
 	};
 
 	template <typename T, typename Metadata>
@@ -27,6 +29,7 @@ namespace BigO {
 		void printInorder();
 		void printPreorder();
 		void printPostorder();
+		void printLevelorder();
 		void print(Traversal traversal = Traversal::INORDER);
 
 		bool operator==(const BinaryTree<T, Metadata>& rhs) const;
@@ -34,6 +37,7 @@ namespace BigO {
 		bool isEmpty() const;
 		bool isFull() const;
 		bool isComplete() const;
+		bool isBalance() const;
 
 		std::size_t size() const;
 		std::size_t height() const;
@@ -50,8 +54,10 @@ namespace BigO {
 		void inorder(Node<T, Metadata> *node);
 		void preorder(Node<T, Metadata> *node);
 		void postorder(Node<T, Metadata> *node);
+		void levelorder(Node<T, Metadata> *node);
 		bool isFull(Node<T, Metadata> *node) const;
 		bool isComplete(Node<T, Metadata> *node) const;
+		bool isBalance(Node<T, Metadata> *node) const;
 		bool equals(Node<T, Metadata> *node1, Node<T, Metadata> *node2) const;
 		Node<T, Metadata> *copy(Node<T, Metadata> *node);
 		std::size_t size(Node<T, Metadata> *node) const;

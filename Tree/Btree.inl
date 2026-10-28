@@ -62,6 +62,13 @@ namespace BigO {
 	}
 
 	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::printLevelorder()
+	{
+		levelorder(root);
+		std::cout << std::endl;
+	}
+
+	template <typename T, typename Metadata>
 	void BinaryTree<T, Metadata>::print(Traversal traversal)
 	{
 		if (traversal == Traversal::INORDER)
@@ -70,6 +77,8 @@ namespace BigO {
 			printPreorder();
 		else if (traversal == Traversal::POSTORDER)
 			printPostorder();
+		else if (traversal == Traversal::LEVELORDER)
+			printLevelorder();
 	}
 
 	template <typename T, typename Metadata>
@@ -92,6 +101,26 @@ namespace BigO {
 		std::cout << node->data << " ";
 		preorder(node->left);
 		preorder(node->right);
+	}
+
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::levelorder(Node<T, Metadata> *node)
+	{
+		if (!node)
+			return;
+
+		Queue<Node<T, Metadata>*> queue;
+		queue.push(node);
+
+		while (!queue.isEmpty()) {
+			auto current = queue.pop();
+			std::cout << current->data << " ";
+
+			if (current->left)
+				queue.push(current->left);
+			if (current->right)
+				queue.push(current->right);
+		}
 	}
 
 	template <typename T, typename Metadata>
@@ -157,6 +186,25 @@ namespace BigO {
 			return true;
 		// TODO: Impl isComplete();
 		return false;
+	}
+
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isBalance() const
+	{
+		return isBalance(root);
+	}
+
+	template <typename T, typename Metadata>
+	bool BinaryTree<T, Metadata>::isBalance(Node<T, Metadata> *node) const
+	{
+		if (!node)
+			return true;
+
+		int balance = balanceFactor(node);
+		if (balance > 1 || balance < -1)
+			return false;
+
+		return isBalance(node->left) && isBalance(node->right);
 	}
 
 	template <typename T, typename Metadata>
