@@ -12,8 +12,8 @@ namespace BigO {
 		bool search(T data) const;
 		bool remove(T data);
 
-		const Node<T, AVLTree> *findMin() const;
-		const Node<T, AVLTree> *findMax() const;
+		const Node<T, AVLTree> *findMin();
+		const Node<T, AVLTree> *findMax();
 	private:
 		Node<T, AVLTree> *leftRotate(Node<T, AVLTree> *&node);
 		Node<T, AVLTree> *rightRotate(Node<T, AVLTree> *&node);

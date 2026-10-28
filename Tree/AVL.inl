@@ -18,13 +18,13 @@ namespace BigO {
 	}
 
 	template <typename T>
-	const Node<T, AVLTree> *AVL<T>::findMin() const
+	const Node<T, AVLTree> *AVL<T>::findMin()
 	{
 		return min(this->root);
 	}
 
 	template <typename T>
-	const Node<T, AVLTree> *AVL<T>::findMax() const
+	const Node<T, AVLTree> *AVL<T>::findMax()
 	{
 		return max(this->root);
 	}
@@ -47,8 +47,8 @@ namespace BigO {
 		auto newNode = node->left;
 		node->left = newNode->right;
 		newNode->right = node;
-		node->metadata.height = height(node);
-		newNode->metadata.height = height(newNode);
+		node->metadata.height = this->height(node);
+		newNode->metadata.height = this->height(newNode);
 
 		return newNode;
 	}
@@ -56,8 +56,37 @@ namespace BigO {
 	template <typename T>
 	bool AVL<T>::insert(Node<T, AVLTree> *&node, T data)
 	{
-		// TODO: Impl insert
-		return false;
+		if (!node) {
+			node = new Node<T, AVLTree>(data);
+			return true;
+		}
+
+		bool inserted = false;
+		if (data < node->data)
+			inserted = insert(node->left, data);
+		else if (data > node->data)
+			inserted = insert(node->right, data);
+		else
+			return false;
+
+		if (!inserted)
+			return false;
+
+		node->metadata.height = this->height(node);
+		int balance = this->balanceFactor(node);
+
+		if (balance > 1 && data < node->left->data) {
+			node = rightRotate(node);
+		} else if (balance > 1 && data > node->left->data) {
+			node->left = leftRotate(node->left);
+			node = rightRotate(node);
+		} else if (balance < -1 && data < node->right->data) {
+			node->right = rightRotate(node->right);
+			node = leftRotate(node);
+		} else if (balance < -1 && data > node->right->data) {
+			node = leftRotate(node);
+		}
+		return true;
 	}
 
 	template <typename T>
