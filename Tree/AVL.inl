@@ -180,9 +180,8 @@ namespace BigO {
 			return nullptr;
 
 		auto current = node;
-		while (current->left) {
+		while (current->left)
 			current = current->left;
-		}
 		return current;
 	}
 
@@ -193,9 +192,8 @@ namespace BigO {
 			return nullptr;
 
 		auto current = node;
-		while (current->right) {
+		while (current->right)
 			current = current->right;
-		}
 		return current;
 	}
 }

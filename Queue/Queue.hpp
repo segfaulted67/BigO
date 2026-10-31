@@ -21,8 +21,8 @@ namespace BigO {
 
 		std::size_t size();
 		std::size_t capacity();
-		std::size_t head();
-		std::size_t tail();
+		T head();
+		T tail();
 
 		T peek();
 

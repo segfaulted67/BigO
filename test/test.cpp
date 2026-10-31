@@ -1,26 +1,27 @@
 #include <Tree/BST.hpp>
 #include <Tree/AVL.hpp>
+#include <Tree/RBT.hpp>
+#include <Stack/Stack.hpp>
 #include <Queue/Queue.hpp>
+
+#include <string>
 
 int main()
 {
-	BigO::AVL<int> tree;
+	BigO::AVL<std::string> tree;
 
-	tree.insert(10);
-	tree.insert(20);
-	tree.insert(30);
-	tree.insert(40);
-	tree.insert(50);
-	tree.insert(60);
-	tree.insert(25);
-	tree.insert(27);
-	tree.insert(23);
-	tree.insert(70);
-	tree.remove(20);
-	tree.insert(80);
-	tree.insert(0);
-	tree.insert(-10);
-	tree.insert(-2);
+	tree.insert("Jan");
+	tree.insert("Feb");
+	tree.insert("Mar");
+	tree.insert("April");
+	tree.insert("May");
+	tree.insert("June");
+	tree.insert("July");
+	tree.insert("Aug");
+	tree.insert("Sep");
+	tree.insert("Oct");
+	tree.insert("Nov");
+	tree.insert("Dec");
 
 	std::cout << "Inorder: ";
 	tree.printInorder();
@@ -39,8 +40,10 @@ int main()
 	std::cout << "Min element: " << tree.findMin()->data << std::endl;
 	std::cout << "Max element: " << tree.findMax()->data << std::endl;
 
-	std::cout << "Search(-2): " << tree.search(-2) << std::endl;
+	std::cout << "Search(Feb): " << tree.search("Feb") << std::endl;
 	std::cout << "Balance Factor: " << tree.balanceFactor() << std::endl;
 	std::cout << "Is Balance: " << tree.isBalance() << std::endl;
+	std::cout << "Is Full: " << tree.isFull() << std::endl;
+
     return 0;
 }

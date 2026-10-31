@@ -19,7 +19,7 @@ namespace BigO {
 	template <typename T>
 	T Queue<T>::operator[](std::size_t index)
 	{
-		if (index > _size)
+		if (index >= _size)
 			throw std::runtime_error("Error: Out of bounds");
 
 		return block[_head + index];
@@ -81,15 +81,15 @@ namespace BigO {
 	}
 
 	template <typename T>
-	std::size_t Queue<T>::head()
+	T Queue<T>::head()
 	{
-		return _head;
+		return block[_head];
 	}
 
 	template <typename T>
-	std::size_t Queue<T>::tail()
+	T Queue<T>::tail()
 	{
-		return _tail;
+		return block[_tail];
 	}
 
 	template <typename T>
