@@ -31,6 +31,7 @@ namespace BigO {
 		void printPostorder();
 		void printLevelorder();
 		void print(Traversal traversal = Traversal::INORDER);
+		void render();
 
 		bool operator==(const BinaryTree<T, Metadata>& rhs) const;
 		bool operator!=(const BinaryTree<T, Metadata>& rhs) const;
@@ -55,6 +56,7 @@ namespace BigO {
 		void preorder(Node<T, Metadata> *node);
 		void postorder(Node<T, Metadata> *node);
 		void levelorder(Node<T, Metadata> *node);
+		void render(Node<T, Metadata> *node, const std::string &prefix, bool isLast, bool isRoot);
 		bool isFull(Node<T, Metadata> *node) const;
 		bool isComplete(Node<T, Metadata> *node) const;
 		bool isBalance(Node<T, Metadata> *node) const;

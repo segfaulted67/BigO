@@ -82,6 +82,12 @@ namespace BigO {
 	}
 
 	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::render()
+	{
+		render(root, " ", true, true);
+	}
+
+	template <typename T, typename Metadata>
 	void BinaryTree<T, Metadata>::inorder(Node<T, Metadata> *node)
 	{
 		if (!node)
@@ -132,6 +138,24 @@ namespace BigO {
 		postorder(node->left);
 		postorder(node->right);
 		std::cout << node->data << " ";
+	}
+
+	template <typename T, typename Metadata>
+	void BinaryTree<T, Metadata>::render(Node<T, Metadata> *node, const std::string &prefix, bool isLast, bool isRoot)
+	{
+		if (!node)
+			return;
+
+		std::cout << prefix << (isRoot ? " " : (isLast ? "└── " : "├── ")) << node->data << std::endl;
+
+		std::string newPrefix = prefix + (isRoot ? " " : (isLast ? "    " : "│   "));
+		if (node->left && node->right) {
+			render(node->left, newPrefix, false, false);
+			render(node->right, newPrefix, true, false);
+		} else if (node->left && !node->right)
+			render(node->left, newPrefix, true, false);
+		else if (node->right && !node->left)
+			render(node->right, newPrefix, true, false);
 	}
 
 	template <typename T, typename Metadata>
