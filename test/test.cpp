@@ -1,6 +1,5 @@
 #include <Tree/BST.hpp>
 #include <Tree/AVL.hpp>
-#include <Tree/RBT.hpp>
 #include <Stack/Stack.hpp>
 #include <Queue/Queue.hpp>
 #include <List/List.hpp>
@@ -154,11 +153,8 @@ int main()
 	std::cout << "Size: " << list.size() << std::endl;
 	std::cout << "Peek: " << list.peek()->data << std::endl;
 	list.print();
-	list.reverse();
-	std::cout << "Peek: " << list.peek()->data << std::endl;
-	list.print();
-	list.reverse();
-	std::cout << "Peek: " << list.peek()->data << std::endl;
-	list.print();
+    list.pop();
+    list.pop();
+    list.print();
     return 0;
 }
