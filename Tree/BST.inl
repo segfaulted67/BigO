@@ -12,28 +12,28 @@ namespace BigO {
 	}
 
 	template <typename T>
-	Node<T> *BST<T>::remove(T data)
+	Node<T, DefaultTree> *BST<T>::remove(T data)
 	{
 		return remove(this->root, data);
 	}
 
 	template <typename T>
-	const Node<T> *BST<T>::findMin()
+	const Node<T, DefaultTree> *BST<T>::findMin()
 	{
 		return min(this->root);
 	}
 
 	template <typename T>
-	const Node<T> *BST<T>::findMax()
+	const Node<T, DefaultTree> *BST<T>::findMax()
 	{
 		return max(this->root);
 	}
 
 	template <typename T>
-	bool BST<T>::insert(Node<T> *&node, T data)
+	bool BST<T>::insert(Node<T, DefaultTree> *&node, T data)
 	{
 		if (!node) {
-			node = new Node<T>(data);
+			node = new Node<T, DefaultTree>(data);
 			return true;
 		}
 
@@ -46,7 +46,7 @@ namespace BigO {
 	}
 
 	template <typename T>
-	bool BST<T>::search(Node<T> *node, T data) const
+	bool BST<T>::search(Node<T, DefaultTree> *node, T data) const
 	{
 		if (!node)
 			return false;
@@ -63,7 +63,7 @@ namespace BigO {
 	}
 
 	template <typename T>
-	Node<T> *BST<T>::remove(Node<T> *&node, T data)
+	Node<T, DefaultTree> *BST<T>::remove(Node<T, DefaultTree> *&node, T data)
 	{
 		if (!node)
 			return nullptr;
@@ -90,7 +90,7 @@ namespace BigO {
 	}
 
 	template <typename T>
-	Node<T> *BST<T>::min(Node<T> *&node)
+	Node<T, DefaultTree> *BST<T>::min(Node<T, DefaultTree> *&node)
 	{
 		if (!node)
 			return nullptr;
@@ -102,7 +102,7 @@ namespace BigO {
 	}
 
 	template <typename T>
-	Node<T> *BST<T>::max(Node<T> *&node)
+	Node<T, DefaultTree> *BST<T>::max(Node<T, DefaultTree> *&node)
 	{
 		if (!node)
 			return nullptr;

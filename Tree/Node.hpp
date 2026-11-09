@@ -3,7 +3,7 @@
 namespace BigO {
 	struct DefaultTree { };
 
-	template <typename T, typename Metadata = DefaultTree>
+	template <typename T, typename Metadata>
 	struct Node {
 		T data;
 		Node<T, Metadata> *left = nullptr;
@@ -15,7 +15,8 @@ namespace BigO {
 
 		bool isLeaf() const;
 		bool isInternalNode() const;
-		bool haveTwoChild() const;
+		bool hasTwoChild() const;
+		bool hasOneChild() const;
 	};
 
 	struct AVLTree {

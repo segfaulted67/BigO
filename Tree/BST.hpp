@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Btree.hpp"
+#include "Binarytree.hpp"
 
 namespace BigO {
 	template <typename T>
@@ -10,16 +10,16 @@ namespace BigO {
 
 		bool insert(T data);
 		bool search(T data) const;
-		Node<T> *remove(T data);
+		Node<T, DefaultTree> *remove(T data);
 
-		const Node<T> *findMin();
-		const Node<T> *findMax();
+		const Node<T, DefaultTree> *findMin();
+		const Node<T, DefaultTree> *findMax();
 	private:
-		bool insert(Node<T> *&node, T data);
-		bool search(Node<T> *node, T data) const;
-		Node<T> *remove(Node<T> *&node, T data);
-		Node<T> *min(Node<T> *&node);
-		Node<T> *max(Node<T> *&node);
+		bool insert(Node<T, DefaultTree> *&node, T data);
+		bool search(Node<T, DefaultTree> *node, T data) const;
+		Node<T, DefaultTree> *remove(Node<T, DefaultTree> *&node, T data);
+		Node<T, DefaultTree> *min(Node<T, DefaultTree> *&node);
+		Node<T, DefaultTree> *max(Node<T, DefaultTree> *&node);
 	};
 }
 
